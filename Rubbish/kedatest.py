@@ -14,10 +14,13 @@ import ssl
 from wsgiref.handlers import format_date_time
 from datetime import datetime
 from time import mktime
+
+from semantic_kernel.Rubbish.chat_all_tasks import *
+
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
 STATUS_LAST_FRAME = 2  # 最后一帧的标识
-from semantic_kernel.Rubbish.testwordtoyuyin import text_to_speech, API_KEY, SECRET_KEY
+
 
 stopnums = 0  # 确保在函数外部定义stopnums为一个全局变量
 status=0
@@ -139,29 +142,7 @@ def openagain(ws,*args):
     thread_obj = threading.Thread(target=run())
     thread_obj.start()
 
-def chat_langchain(input):
-    global status
-    status=1 #表示说话
-    messages.append({"role": "user", "content": input})
-    from semantic_kernel.语音对讲.hey_siri import LLm
-    LLm.chat(messages)
 
-def chat_agent(input):
-    messages.append({"role": "user", "content": input})
-
-def chat_usual(input):
-        global status
-        status = 1  # 表示说话
-        from zhipuai import ZhipuAI
-        client = ZhipuAI(api_key="")  # 填写您自己的APIKey
-        messages.append({"role": "user", "content": input})
-        response = client.chat.completions.create(
-            model="glm-4",  # 填写需要调用的模型名称
-            messages=messages
-        )
-        result = response.choices[0].message.content
-        print("回答为：" + result)
-        text_to_speech(result, API_KEY, SECRET_KEY)
 
 # 收到websocket连接建立的处理
 def on_open(ws):
