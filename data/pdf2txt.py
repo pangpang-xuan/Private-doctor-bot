@@ -44,7 +44,7 @@ class RapidOCRPDFLoader(UnstructuredFileLoader):
 
 
 if __name__ == "__main__":
-    loader = RapidOCRPDFLoader(file_path="data/samples/ocr_test.pdf")
+    loader = RapidOCRPDFLoader(file_path="")
     txt_path=""
     docs = loader.load()
     print(docs)
@@ -53,4 +53,4 @@ if __name__ == "__main__":
 
     with open(txt_path, "w", encoding="utf-8") as txt_file:
         txt_file.write(result + "\n")
-    #print(type(docs)) <class 'list'>
+
