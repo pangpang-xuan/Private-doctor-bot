@@ -14,17 +14,16 @@ import ssl
 from wsgiref.handlers import format_date_time
 from datetime import datetime
 from time import mktime
-
 from semantic_kernel.Rubbish.chat_all_tasks import *
+
+
 
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
 STATUS_LAST_FRAME = 2  # 最后一帧的标识
 
-
 stopnums = 0  # 确保在函数外部定义stopnums为一个全局变量
 status=0
-
 
 
 class Ws_Param(object):
@@ -73,7 +72,9 @@ class Ws_Param(object):
         return url
 
 
+
 # 收到websocket消息的处理
+#------------------------------------在下面修改不同功能中的chat函数------------------------------------------------------------
 def on_message(ws, message):
     try:
         code = json.loads(message)["code"]
