@@ -1,3 +1,4 @@
+import ast
 import json
 from copy import deepcopy
 from langchain.llms.base import LLM
@@ -32,23 +33,25 @@ class Qwen(LLM):
 
     def _tool_history(self, prompt: str):
         ans = []
-        try:
-            tool_prompts = prompt.split(
-                "You have access to the following tools:\n\n")[1].split("\n\nUse a json blob")[0].split("\n")
-        except IndexError:
-            tool_prompts = []  # 如果没有找到工具，就使用一个空列表
 
-        tool_names = [tool.split(":")[0] for tool in tool_prompts]
-        self.tool_names = tool_names
+        tool_prompts = prompt.split(
+            "You have access to the following tools:\n\n")[1].split("\n\nUse a json blob")[0].split("\n")
         tools_json = []
-        for i, tool in enumerate(tool_names):
-            tool_config = tool_config_from_file(tool)
-            if tool_config:
-                tools_json.append(tool_config)
-            else:
-                ValueError(
-                    f"Tool {tool} config not found! It's description is {tool_prompts[i]}"
-                )
+
+        for tool_desc in tool_prompts:
+            name = tool_desc.split(":")[0]
+            description = tool_desc.split(", args:")[0].split(":")[1].strip()
+            parameters_str = tool_desc.split("args:")[1].strip()
+            parameters_dict = ast.literal_eval(parameters_str)
+            params_cleaned = {}
+            for param, details in parameters_dict.items():
+                params_cleaned[param] = {'description': details['description'], 'type': details['type']}
+
+            tools_json.append({
+                "name": name,
+                "description": description,
+                "parameters": params_cleaned
+            })
 
         ans.append({
             "role": "system",
@@ -57,6 +60,7 @@ class Qwen(LLM):
         })
         query = f"""{prompt.split("Human: ")[-1].strip()}"""
         return ans, query
+
 
     def _extract_observation(self, prompt: str):
         return_json = prompt.split("Observation: ")[-1].split("\nThought:")[0]
