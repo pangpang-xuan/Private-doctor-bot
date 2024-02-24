@@ -6,9 +6,8 @@ import pyaudio
 import pygame
 import requests
 from mutagen.mp3 import MP3
-
-from semantic_kernel.Rubbish.testwordtoyuyin import fetch_token, TTS_URL, FORMATS, play_mp3, API_KEY, SECRET_KEY
-from semantic_kernel.Rubbish.kedatest import run
+from semantic_kernel.Rubbish.testwordtoyuyin import fetch_token, TTS_URL, FORMATS, play_mp3
+from semantic_kernel.server.Qwen_llm import Qwen_llm
 
 
 def here(text, api_key, secret_key, per=3, spd=5, pit=5, vol=5, aue=3):
@@ -49,12 +48,36 @@ def play_mp3(file_path):
         continue
 
 
+# def loadfaiss(file_path,embedding_path):
+#     loader = UnstructuredFileLoader(file_path=file_path)
+#     docs = loader.load()
+#     # 文件分割
+#     text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=200)
+#     docs = text_splitter.split_documents(docs)
+#     # 构建向量数据库
+#     model_kwargs = {'device': 'cuda:0'}
+#     encode_kwargs = {'normalize_embeddings': True}  # set True to compute cosine similarity
+#     embedding = HuggingFaceBgeEmbeddings(
+#         model_name=embedding_path,
+#         model_kwargs=model_kwargs,
+#         encode_kwargs=encode_kwargs,
+#     )
+#     db = FAISS.from_documents(docs, embedding)
+#     retriever = db.as_retriever()
+#     return retriever
+
+
+
 
 PICOVICE_APIKEY=""
+embedding_path="E:\ChatGLM3-6B\embedding\\bge-large-zh"
+file_path="data/data.txt"
+qwen_api=""
+LLm=Qwen_llm(api_key=qwen_api,file_path=file_path,embedding_path=embedding_path)
+
 pvporcupine=pvporcupine.create(
     access_key=PICOVICE_APIKEY,
     keyword_paths=['F:\pythonProject1\semantic_kernel\语音对讲\da-bai-da-bai_en_windows_v2_2_0.ppn'], #这个地方需要修改为自己的路径
-    #keyword_paths=["hey-siri_en_windows_v2_2_0.ppn"],
 )
 myaudio=pyaudio.PyAudio()
 stream = myaudio.open(
@@ -65,6 +88,8 @@ stream = myaudio.open(
     input=True,
     frames_per_buffer=pvporcupine.frame_length
 )
+
+
 while True:
     audio_obj=stream.read(pvporcupine.frame_length,exception_on_overflow=False)
     audio_obj_unpacked=struct.unpack_from("h"*pvporcupine.frame_length,audio_obj)
@@ -73,6 +98,7 @@ while True:
     if keyword_idx>=0:
         '''here("我在",API_KEY, SECRET_KEY)'''
         play_mp3("F:\pythonProject1\semantic_kernel\语音对讲\here.mp3") # 这个地方需要进行修改为自己当前的路径
+        from semantic_kernel.Rubbish.kedatest import run
         run()   #调用的是Rubbish中的kedatest.py
 
 
