@@ -3,8 +3,8 @@ import json
 
 data_list = []
 
-jsonl_path="MedChatZH_valid.jsonl"
-txt_path="data.txt"
+jsonl_path="MedChatZH_valid.jsonl" #本地的jsonl格式的路径
+txt_path="data.txt" #本地知识库路径
 
 # 打开jsonl文件，读取每一行数据
 with open(jsonl_path, "r",encoding="utf-8") as jsonl_file:
