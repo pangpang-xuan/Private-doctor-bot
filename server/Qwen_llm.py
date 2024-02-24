@@ -15,6 +15,7 @@ class Qwen_llm():
         self.embedding_path=embedding_path
         self.llm=Qwen(api_key=api_key)
 
+        # ----------------------------------------加载本地知识库------------------------------------
         loader = UnstructuredFileLoader(file_path=self.file_path)
         docs = loader.load()
         # 文件分割

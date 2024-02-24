@@ -18,7 +18,7 @@ class ChatGLM_llm():
         self.model_path=model_path
         self.llm=ChatGLM3().load_model(model_name_or_path=self.model_path)
 
-        # ----------------------------------------加载本地知识库------------------------------------
+        # ----------------------------------------加载本地知识库-------------------------------------
 
         loader = UnstructuredFileLoader(file_path=self.file_path)
         docs = loader.load()
