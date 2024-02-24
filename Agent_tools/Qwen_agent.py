@@ -19,11 +19,7 @@ class Qwen_agent():
 
     def chat(self,query):
 
-        qa = RetrievalQA.from_chain_type(self.llm, chain_type="stuff", retriever=self.retriever)
 
-        response = qa.run(query)
-
-        print(response)
 
         text_to_speech(response, API_KEY, SECRET_KEY)
 

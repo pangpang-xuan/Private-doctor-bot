@@ -23,7 +23,7 @@ class ChatGLM_agent():
 
     def chat(self, query):
 
-
+        print("....")
 
         text_to_speech(response, API_KEY, SECRET_KEY)
 
