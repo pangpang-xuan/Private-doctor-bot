@@ -32,3 +32,4 @@ fastapi==0.95.1
 typing_extensions==4.4.0
 sse_starlette
 loguru
+langchain=0.0.354
