@@ -1,12 +1,5 @@
-from langchain.chains import RetrievalQA
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.document_loaders import UnstructuredFileLoader
-from langchain.embeddings import HuggingFaceBgeEmbeddings
-from langchain.vectorstores.faiss import FAISS
-
 from semantic_kernel.Agent_tools.Tools.Weather import Weather
 from semantic_kernel.Worker.ChatGLM3 import ChatGLM3
-from semantic_kernel.Rubbish.testwordtoyuyin import text_to_speech, API_KEY, SECRET_KEY
 from langchain import hub
 from langchain.agents import AgentExecutor, create_structured_chat_agent, load_tools
 
@@ -37,7 +30,8 @@ class ChatGLM_agent():
         agent_executor = AgentExecutor(agent=agent, tools=tools)
         ans = agent_executor.invoke({"input": query})
         response = ans['output']
-        text_to_speech(response, API_KEY, SECRET_KEY)
+
+        return response
 
 
 

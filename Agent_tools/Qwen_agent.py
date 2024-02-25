@@ -30,10 +30,9 @@ class Qwen_agent():
         agent_executor = AgentExecutor(agent=agent, tools=tools)
         ans = agent_executor.invoke({"input": query})
         response = ans['output']
-        text_to_speech(response, API_KEY, SECRET_KEY)
 
+        return  response
 
-        text_to_speech(response, API_KEY, SECRET_KEY)
 
 
 
