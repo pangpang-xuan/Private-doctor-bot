@@ -1,5 +1,5 @@
 from semantic_kernel.Rubbish.testwordtoyuyin import text_to_speech, API_KEY, SECRET_KEY
-
+from openai import OpenAI
 
 messages = [
     {"role": "system", "content":
@@ -44,3 +44,22 @@ def chat_usual(input):
         result = response.choices[0].message.content
         print("回答为：" + result)
         text_to_speech(result, API_KEY, SECRET_KEY)
+
+
+def chat_vllm(input):
+    openai_api_key = "EMPTY"
+    openai_api_base = "http://localhost:8000/v1"
+    messages.append({"role": "user", "content": input})
+    client = OpenAI(
+        api_key=openai_api_key,
+        base_url=openai_api_base,
+    )
+
+    response = client.chat.completions.create(
+        model="facebook/opt-125m",
+        messages=[
+            {"role": "user", "content": input},
+        ]
+    )
+    print("Chat response:", response)
+    text_to_speech(response, API_KEY, SECRET_KEY)
