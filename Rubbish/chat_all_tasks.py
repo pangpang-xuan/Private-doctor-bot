@@ -27,6 +27,8 @@ def chat_langchain(input):
 
 def chat_agent(input):
     messages.append({"role": "user", "content": input})
+    from semantic_kernel.语音对讲.hey_siri import LLm
+    LLm.chat(messages)
 
 
 def chat_usual(input):

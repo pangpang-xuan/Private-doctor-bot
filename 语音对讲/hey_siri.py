@@ -6,6 +6,8 @@ import pyaudio
 import pygame
 import requests
 from mutagen.mp3 import MP3
+
+from semantic_kernel.Agent_tools.Qwen_agent import Qwen_agent
 from semantic_kernel.Rubbish.testwordtoyuyin import fetch_token, TTS_URL, FORMATS, play_mp3
 from semantic_kernel.server.Qwen_llm import Qwen_llm
 
@@ -48,24 +50,6 @@ def play_mp3(file_path):
         continue
 
 
-# def loadfaiss(file_path,embedding_path):
-#     loader = UnstructuredFileLoader(file_path=file_path)
-#     docs = loader.load()
-#     # 文件分割
-#     text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=200)
-#     docs = text_splitter.split_documents(docs)
-#     # 构建向量数据库
-#     model_kwargs = {'device': 'cuda:0'}
-#     encode_kwargs = {'normalize_embeddings': True}  # set True to compute cosine similarity
-#     embedding = HuggingFaceBgeEmbeddings(
-#         model_name=embedding_path,
-#         model_kwargs=model_kwargs,
-#         encode_kwargs=encode_kwargs,
-#     )
-#     db = FAISS.from_documents(docs, embedding)
-#     retriever = db.as_retriever()
-#     return retriever
-
 
 
 
@@ -73,7 +57,12 @@ PICOVICE_APIKEY=""
 embedding_path="E:\ChatGLM3-6B\embedding\\bge-large-zh"
 file_path="data/data.txt"
 qwen_api=""
+
+# 本地知识库的llm
 LLm=Qwen_llm(api_key=qwen_api,file_path=file_path,embedding_path=embedding_path)
+
+# agent的llm
+#LLm=Qwen_agent(api_key=qwen_api)
 
 pvporcupine=pvporcupine.create(
     access_key=PICOVICE_APIKEY,
