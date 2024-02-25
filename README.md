@@ -92,6 +92,7 @@ python hey_siri.py
 
 ## 痛点
 
++ **import时候，自行删除semantic_kernel**
 + **文字转语音的时候输出字数如果过长的话，将无法转为语音进行播放**
 + **langchain_agent有可能模型有的时候不能很好的进行理解，有的时候无法进行function calling**
 + **vllm对于模型的加速本项目测试阶段只在服务器上面运行，不知道对于电脑的Linux效果如何**
