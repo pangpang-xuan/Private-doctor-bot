@@ -1,9 +1,10 @@
-import ast
 import json
 from copy import deepcopy
+
 from langchain.llms.base import LLM
+from transformers import AutoTokenizer, AutoModel, AutoConfig
 from typing import List, Optional
-from semantic_kernel.Worker.utils import tool_config_from_file
+from utils import tool_config_from_file
 import dashscope
 
 
@@ -29,29 +30,22 @@ class Qwen(LLM):
     def _llm_type(self) -> str:
         return "Qwen"
 
-
-
     def _tool_history(self, prompt: str):
         ans = []
-
         tool_prompts = prompt.split(
             "You have access to the following tools:\n\n")[1].split("\n\nUse a json blob")[0].split("\n")
+
+        tool_names = [tool.split(":")[0] for tool in tool_prompts]
+        self.tool_names = tool_names
         tools_json = []
-
-        for tool_desc in tool_prompts:
-            name = tool_desc.split(":")[0]
-            description = tool_desc.split(", args:")[0].split(":")[1].strip()
-            parameters_str = tool_desc.split("args:")[1].strip()
-            parameters_dict = ast.literal_eval(parameters_str)
-            params_cleaned = {}
-            for param, details in parameters_dict.items():
-                params_cleaned[param] = {'description': details['description'], 'type': details['type']}
-
-            tools_json.append({
-                "name": name,
-                "description": description,
-                "parameters": params_cleaned
-            })
+        for i, tool in enumerate(tool_names):
+            tool_config = tool_config_from_file(tool)
+            if tool_config:
+                tools_json.append(tool_config)
+            else:
+                ValueError(
+                    f"Tool {tool} config not found! It's description is {tool_prompts[i]}"
+                )
 
         ans.append({
             "role": "system",
@@ -60,7 +54,6 @@ class Qwen(LLM):
         })
         query = f"""{prompt.split("Human: ")[-1].strip()}"""
         return ans, query
-
 
     def _extract_observation(self, prompt: str):
         return_json = prompt.split("Observation: ")[-1].split("\nThought:")[0]
