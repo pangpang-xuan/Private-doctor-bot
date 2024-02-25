@@ -1,4 +1,4 @@
-from semantic_kernel.Script.testwordtoyuyin import text_to_speech, API_KEY, SECRET_KEY
+from semantic_kernel.Rubbish.testwordtoyuyin import text_to_speech, API_KEY, SECRET_KEY
 from openai import OpenAI
 
 messages = [
