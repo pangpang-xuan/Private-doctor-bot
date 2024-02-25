@@ -16,34 +16,40 @@ messages = [
 ]
 
 
+def chat_api(input):
+    messages.append({"role": "user", "content": input})
+    from semantic_kernel.语音对讲.hey_siri import client
+    response = client.chat.completions.create(
+        model="glm-4",  # 填写需要调用的模型名称
+        messages=messages
+    )
+    result = response.choices[0].message.content
+    print("回答为：" + result)
+    text_to_speech(result, API_KEY, SECRET_KEY)
+
+
+def chat_llm(input):
+    messages.append({"role": "user", "content": input})
+    from semantic_kernel.语音对讲.hey_siri import LLm,tokenizer
+    model = LLm.eval()
+    result,_ = model.chat(tokenizer, "你好", history=[])
+
+    text_to_speech(result, API_KEY, SECRET_KEY)
+
 
 def chat_langchain(input):
-    global status
-    status=1 #表示说话
     messages.append({"role": "user", "content": input})
     from semantic_kernel.语音对讲.hey_siri import LLm
-    LLm.chat(messages)
+    result=LLm.chat(messages)
+    text_to_speech(result, API_KEY, SECRET_KEY)
 
 
 def chat_agent(input):
     messages.append({"role": "user", "content": input})
     from semantic_kernel.语音对讲.hey_siri import LLm
-    LLm.chat(messages)
+    result = LLm.chat(messages)
+    text_to_speech(result, API_KEY, SECRET_KEY)
 
-
-def chat_usual(input):
-        global status
-        status = 1  # 表示说话
-        from zhipuai import ZhipuAI
-        client = ZhipuAI(api_key="")  # 填写您自己的APIKey
-        messages.append({"role": "user", "content": input})
-        response = client.chat.completions.create(
-            model="glm-4",  # 填写需要调用的模型名称
-            messages=messages
-        )
-        result = response.choices[0].message.content
-        print("回答为：" + result)
-        text_to_speech(result, API_KEY, SECRET_KEY)
 
 
 def chat_vllm(input):
