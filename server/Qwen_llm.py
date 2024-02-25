@@ -4,7 +4,7 @@ from langchain.document_loaders import UnstructuredFileLoader
 from langchain.embeddings import HuggingFaceBgeEmbeddings
 from langchain.vectorstores.faiss import FAISS
 from semantic_kernel.Worker.Qwen import Qwen
-from semantic_kernel.Rubbish.testwordtoyuyin import text_to_speech, API_KEY, SECRET_KEY
+
 
 class Qwen_llm():
 
@@ -40,7 +40,8 @@ class Qwen_llm():
 
         print(response)
 
-        text_to_speech(response, API_KEY, SECRET_KEY)
+        return response
+
 
 
 
