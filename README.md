@@ -40,7 +40,7 @@ python=3.10 cuda=11.8 torch=2.1
 ```
 + 安装依赖
 ```
-git clone https://github.com/jayofhust/Private-doctor-bot.git
+git clone https://github.com/pangpang-xuan/Private-doctor-bot.git
 pip install -r requirements.txt
 ```
 + 配置api-key与模型路径
