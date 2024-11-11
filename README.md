@@ -13,6 +13,7 @@
   * [3.langchain本地知识库](README.md#离线知识库)
   * [4.langchain-agent](README.md#agent)
   * [5.vllm加速模型](README.md#vllm)
+  * [6.tensorre-llm加速模型](README.md#tensorre-llm)
 * [痛点](README.md#痛点)
 
 ## 介绍
@@ -24,6 +25,7 @@
 
 ---
 ### 仓库迭代
+- [2024/11] ``我们项目接触了tensorre-llm框架，并将tensorre-llm框架简单接入了项目``
 - [2024/01] ``我们项目接触了vllm框架，并将vllm框架简单接入了项目``
 - [2023/11] ``我们项目受到了ChatGLM3-6B官方仓库的启发开始了langchain的融合``
 - [2023/10] ``我们将我们微调之后的本地模型投入项目的使用``
